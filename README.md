@@ -1,0 +1,2 @@
+# neovim
+neovimの設定
