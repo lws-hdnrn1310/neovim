@@ -1,20 +1,37 @@
 return {
 	"nvim-telescope/telescope.nvim",
-	dependencies = { "nvim-lua/plenary.nvim",
-		{ "nvim-telescope/telescope-fzf-native.nvim",
-			build = "make" },
+	dependencies = {
+		"nvim-lua/plenary.nvim",
+		{
+			"nvim-telescope/telescope-fzf-native.nvim",
+			build = "make"
+		},
 		"nvim-tree/nvim-web-devicons",
 	},
 	keys = {
-		{"<leader>ff", ":Telescope find_files theme=dropdown find_command=rg,--files,--hidden,--glob,!*.git<CR>"},
-		{"<leader>lg", ":Telescope live_grep theme=dropdown<CR>" },
+		{"<leader>ff", ":Telescope find_files find_command=rg,--files,--hidden,--glob,!*.git<CR>"},
+		{"<leader>lg", ":Telescope live_grep<CR>" },
 	},
+	
 	config = function()
-		local telescope = require("telescope")
-
-		telescope.load_extension("fzf");
+		require("telescope").setup({
+			defaults = {
+				sorting_strategy = "ascending",
+				layout_config = {
+					prompt_position = "top",
+				},
+			},
+			extensions = {
+				fzf = {
+					fuzzy = false,
+					override_generic_sorter = true,
+					override_file_sorter = true,
+					case_mode = "smart_case",
+				}
+			}
+		});
+	end
 		-- dropdown
 		-- git_commits
 		-- git_branchs
-	end
 }

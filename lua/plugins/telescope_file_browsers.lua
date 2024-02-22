@@ -5,5 +5,5 @@ return{
 		"nvim-telescope/telescope.nvim",
 	},
 
-	vim.api.nvim_set_keymap('n', '<leader>fb', '<cmd>Telescope file_browser theme=dropdown<CR>', { noremap = true, silent = true })
+	vim.api.nvim_set_keymap('n', '<leader>fb', '<cmd>Telescope file_browser<CR>', { noremap = true, silent = true })
 }
