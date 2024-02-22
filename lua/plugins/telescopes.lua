@@ -6,8 +6,8 @@ return {
 		"nvim-tree/nvim-web-devicons",
 	},
 	keys = {
-		{"<leader>ff", ":Telescope find_files find_command=rg,--files,--hidden,--glob,!*.git<CR>"},
-		{"<leader>lg", ":Telescope live_grep<CR>" },
+		{"<leader>ff", ":Telescope find_files theme=dropdown find_command=rg,--files,--hidden,--glob,!*.git<CR>"},
+		{"<leader>lg", ":Telescope live_grep theme=dropdown<CR>" },
 	},
 	config = function()
 		local telescope = require("telescope")

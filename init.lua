@@ -1,3 +1,5 @@
-require("commons")
 require("keymaps")
-require("lazy_settings")
+if vim.g.vscode == nil then
+	require("commons")
+	require("lazy_settings")
+end
