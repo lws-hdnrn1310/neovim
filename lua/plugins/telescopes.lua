@@ -12,7 +12,6 @@ return {
 		{"<leader>ff", ":Telescope find_files find_command=rg,--files,--hidden,--glob,!*.git<CR>"},
 		{"<leader>lg", ":Telescope live_grep<CR>" },
 	},
-	
 	config = function()
 		require("telescope").setup({
 			defaults = {
@@ -30,6 +29,7 @@ return {
 				}
 			}
 		});
+		require("telescope").load_extension("fzf")
 	end
 		-- dropdown
 		-- git_commits
