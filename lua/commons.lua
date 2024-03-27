@@ -27,11 +27,13 @@ vim.opt.showmatch = true
 vim.opt.number = true
 vim.opt.autoread = true
 -- about indent
-vim.opt.breakindent = true
-vim.opt.autoindent = true
-vim.opt.smartindent = true
-vim.opt.ai = true
-vim.opt.si = true
+ vim.opt.breakindent = true
+ vim.opt.autoindent = true
+ vim.opt.smartindent = true
+ vim.api.nvim_command('filetype plugin indent on')
+-- 以下２つはautoindentとsmartindentの有効と重複するためコメントアウト
+-- vim.opt.ai = true
+-- vim.opt.si = true
 -- about tab
 vim.opt.showtabline = 2
 vim.opt.tabstop = 2
