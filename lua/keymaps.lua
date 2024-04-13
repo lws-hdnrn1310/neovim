@@ -21,5 +21,5 @@ keymap.set('n', 'te', ':tabedit<Return>')
 keymap.set('n', 'tn', ':tabnext<CR>', { noremap = true })
 keymap.set('n', 'tp', ':tabprev<CR>', { noremap = true })
 -- move buffer
-keymap.set('n', 'b]', ':bnext<CR>', { noremap = true })
-keymap.set('n', 'b[', ':bprev<CR>', { noremap = true })
+keymap.set('n', '<leader>b]', ':bnext<CR>', { noremap = true })
+keymap.set('n', '<leader>b[', ':bprev<CR>', { noremap = true })
