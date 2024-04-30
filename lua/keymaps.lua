@@ -18,8 +18,8 @@ keymap.set('n', '<ESC>', ':nohlsearch<CR>')
 -- new tab
 keymap.set('n', 'te', ':tabedit<Return>')
 -- move tab
-keymap.set('n', 'tn', ':tabnext<CR>', { noremap = true })
-keymap.set('n', 'tp', ':tabprev<CR>', { noremap = true })
+keymap.set('n', 'tn', ':bnext<CR>', { noremap = true })
+keymap.set('n', 'tp', ':bprev<CR>', { noremap = true })
 -- move buffer
-keymap.set('n', '<leader>b]', ':bnext<CR>', { noremap = true })
-keymap.set('n', '<leader>b[', ':bprev<CR>', { noremap = true })
+-- keymap.set('n', '<leader>b]', ':bnext<CR>', { noremap = true })
+-- keymap.set('n', '<leader>b[', ':bprev<CR>', { noremap = true })
