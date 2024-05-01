@@ -48,3 +48,5 @@ vim.opt.listchars = {tab='>-', trail='*', nbsp='+'}
 vim.opt.termguicolors = true
 vim.opt.winblend = 30
 vim.opt.pumblend = 30
+
+vim.o.foldenable = false

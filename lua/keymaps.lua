@@ -23,3 +23,6 @@ keymap.set('n', 'tp', ':bprev<CR>', { noremap = true })
 -- move buffer
 -- keymap.set('n', '<leader>b]', ':bnext<CR>', { noremap = true })
 -- keymap.set('n', '<leader>b[', ':bprev<CR>', { noremap = true })
+-- resize window
+keymap.set('n', '+', ':resize +5<CR>', { noremap = true })
+keymap.set('n', '-', ':resize -5<CR>', { noremap = true })
