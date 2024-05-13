@@ -20,17 +20,19 @@ return {
 		local open_in_iterm = function(prompt_bufnr)
       local selection = action_state.get_selected_entry()
 			local file_path = selection.value
-			local file_dir = '~/Dev/arukuto_server_h-ueno/'
+			local file_dir = os.getenv('WORKSPACE_DIR')
 
-			file_path = file_path:gsub(":%d+:%d+:.*$", "")
-      actions.close(prompt_bufnr)
-      local command = 'osascript -e \'tell application "iTerm"\' ' ..
-                      '-e \'set myWindow to (create window with profile "ForNvim")\' ' ..
-                      '-e \'tell current session of myWindow\' ' ..
-                      '-e \'write text "cd '.. file_dir..' && nvim ' .. file_path .. '"\' ' ..
-                      '-e \'end tell\' ' ..
-                      '-e \'end tell\''
-      os.execute(command)
+			if not (file_dir) then
+				file_path = file_path:gsub(":%d+:%d+:.*$", "")
+				actions.close(prompt_bufnr)
+				local command = 'osascript -e \'tell application "iTerm"\' ' ..
+												'-e \'set myWindow to (create window with profile "ForNvim")\' ' ..
+												'-e \'tell current session of myWindow\' ' ..
+												'-e \'write text "cd '.. file_dir..' && nvim ' .. file_path .. '"\' ' ..
+												'-e \'end tell\' ' ..
+												'-e \'end tell\''
+				os.execute(command)
+			end
     end
 
 		require("telescope").setup{
