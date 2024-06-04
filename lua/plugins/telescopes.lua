@@ -22,7 +22,7 @@ return {
 			local file_path = selection.value
 			local file_dir = os.getenv('WORKSPACE_DIR')
 
-			if not (file_dir) then
+			if file_dir then
 				file_path = file_path:gsub(":%d+:%d+:.*$", "")
 				actions.close(prompt_bufnr)
 				local command = 'osascript -e \'tell application "iTerm"\' ' ..
