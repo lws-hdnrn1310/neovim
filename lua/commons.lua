@@ -60,6 +60,6 @@ vim.g.netrw_banner = 0
 -- window サイズ
 vim.g.netrw_winsize = 25
 -- Netrw で Enter 押下時の挙動設定
-vim.g.netrw_browse_split = 4
+vim.g.netrw_browse_split = 3
 vim.g.netrw_alto = 1
 
