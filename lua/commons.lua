@@ -50,3 +50,16 @@ vim.opt.winblend = 30
 vim.opt.pumblend = 30
 
 vim.o.foldenable = false
+
+-- ツリー表示
+-- 表示を変更したい場合は i で切替可能
+vim.g.netrw_liststyle = 3
+-- 上部のバナーを非表示
+-- I で toggle 可能
+vim.g.netrw_banner = 0
+-- window サイズ
+vim.g.netrw_winsize = 25
+-- Netrw で Enter 押下時の挙動設定
+vim.g.netrw_browse_split = 3
+vim.g.netrw_alto = 1
+
