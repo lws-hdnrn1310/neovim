@@ -1,5 +1,5 @@
 -- change the leader key
-vim.g.mapleader = ";"
+vim.g.mapleader = " "
 -- file encording type
 vim.opt.fileencoding = 'utf-8'
 vim.scriptencoding = 'uff-8'
