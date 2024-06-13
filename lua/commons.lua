@@ -63,3 +63,6 @@ vim.g.netrw_winsize = 25
 vim.g.netrw_browse_split = 3
 vim.g.netrw_alto = 1
 
+if vim.g.vscode then
+	vim.opt.clipboard:append('unnamedplus')
+end

@@ -18,8 +18,14 @@ keymap.set('n', '<ESC>', ':nohlsearch<CR>')
 -- new tab
 keymap.set('n', 'te', ':tabedit<Return>')
 -- move tab
-keymap.set('n', 'tn', ':bnext<CR>', { noremap = true })
-keymap.set('n', 'tp', ':bprev<CR>', { noremap = true })
+if vim.g.vscode then
+	keymap.set('n', 'tn', ':tabnext<Return>')
+	keymap.set('n', 'tp', ':tabprevious<Return>')
+else
+	keymap.set('n', 'tn', ':bnext<CR>', { noremap = true })
+	keymap.set('n', 'tp', ':bprev<CR>', { noremap = true })
+end
+
 -- move buffer
 -- keymap.set('n', '<leader>b]', ':bnext<CR>', { noremap = true })
 -- keymap.set('n', '<leader>b[', ':bprev<CR>', { noremap = true })
