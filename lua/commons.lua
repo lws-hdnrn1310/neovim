@@ -62,3 +62,6 @@ vim.g.netrw_winsize = 25
 -- Netrw で Enter 押下時の挙動設定
 vim.g.netrw_browse_split = 0
 vim.g.netrw_altv = 1
+if vim.g.vscode then
+	vim.opt.clipboard:append('unnamedplus')
+end

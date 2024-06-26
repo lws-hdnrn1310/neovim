@@ -6,7 +6,7 @@ return {
 		{ "nvim-lua/plenary.nvim" },
 	},
 	opts = {
-		debug = true
+		debug = false
 	},
 -- config = function()
 -- 	function CopilotChatBuffer()

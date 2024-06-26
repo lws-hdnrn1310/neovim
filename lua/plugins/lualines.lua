@@ -2,7 +2,7 @@ return{
 	"nvim-lualine/lualine.nvim",
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	config = function()
-		require('lualine').setup(
+		require('lualine').setup{
 			-- options = {
 			-- 	icons_enabled = true,
 			-- 	theme = 'auto',
@@ -37,13 +37,20 @@ return{
 			-- 	lualine_y = {},
 			-- 	lualine_z = {}
 			-- },
-			-- tabline = {},
+			tabline = {
+					lualine_a = {'buffers'},
+					lualine_b = {},
+					lualine_c = {},
+					lualine_x = {},
+					lualine_y = {},
+					lualine_z = {'tabs'}
+				},
 			-- winbar = {},
 			-- inactive_winbar = {},
 			-- extensions = {}
 			-- options = {
 			-- 	theme = "duskfox"
 			-- },
-		)
+		}
 	end
 }
