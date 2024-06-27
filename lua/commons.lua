@@ -66,3 +66,4 @@ vim.g.netrw_alto = 1
 if vim.g.vscode then
 	vim.opt.clipboard:append('unnamedplus')
 end
+
