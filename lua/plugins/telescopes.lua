@@ -43,7 +43,9 @@ return {
 				},
 				vimgrep_arguments = {
 						'rg', '--color=never', '--no-heading', '--with-filename',
-						'--line-number', '--column', '--smart-case', '--sort-files'
+						'--line-number', '--column', '--smart-case', '--sort-files',
+						-- live_grepの検索対象から除外する
+						'--glob=!node_modules/*', '--glob=!public/*', '--glob=!vendor/*',
 				},
 				mappings = {
 					i = {
