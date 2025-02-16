@@ -1,6 +1,6 @@
 return {
 	"CopilotC-Nvim/CopilotChat.nvim",
-	branch = "canary",
+	branch = "main",
 	dependencies = {
 		{ "zbirenbaum/copilot.lua" },
 		{ "nvim-lua/plenary.nvim" },
@@ -71,11 +71,11 @@ return {
 				show_diff = {
 					normal = 'gd',
 				},
-				show_system_prompt = {
-					normal = 'gp',
+				show_context = {
+					normal = "<leader>su"
 				},
-				show_user_selection = {
-					normal = 'gs',
+				show_info = {
+					normal = "<leader>sp"
 				},
 			},
 		})
