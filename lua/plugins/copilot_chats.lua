@@ -2,7 +2,7 @@ return {
 	"CopilotC-Nvim/CopilotChat.nvim",
 	branch = "canary",
 	dependencies = {
-		{ "github/copilot.vim" },
+		{ "zbirenbaum/copilot.lua" },
 		{ "nvim-lua/plenary.nvim" },
 	},
 	opts = {
@@ -86,6 +86,8 @@ return {
 				require("CopilotChat").ask(input, { selection = require("CopilotChat.select").buffer })
 			end
 		end
+		vim.api.nvim_set_keymap("n", "<leader>ocs", "<cmd>CopilotChatToggle<cr>", { noremap = true, silent = true })
+
 		vim.api.nvim_set_keymap("n", "<leader>ccq", "<cmd>lua CopilotChatBuffer()<cr>", { noremap = true, silent = true})
 
 		function ShowCopilotActionPrompt()
