@@ -37,8 +37,9 @@ vim.opt.autoread = true
 -- about tab
 vim.opt.showtabline = 2
 vim.opt.tabstop = 2
--- vim.opt.expandtab = true
+vim.opt.expandtab = true
 vim.opt.shiftwidth = 2
+vim.opt.softtabstop = 2
 vim.opt.scrolloff = 10
 vim.opt.cmdheight = 1
 vim.opt.wildmenu = true
@@ -60,7 +61,7 @@ vim.g.netrw_banner = 0
 -- window サイズ
 vim.g.netrw_winsize = 25
 -- Netrw で Enter 押下時の挙動設定
-vim.g.netrw_browse_split = 0
+vim.g.netrw_browse_split = 3
 vim.g.netrw_altv = 1
 if vim.g.vscode then
 	vim.opt.clipboard:append('unnamedplus')
