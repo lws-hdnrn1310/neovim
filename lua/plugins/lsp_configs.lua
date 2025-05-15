@@ -14,7 +14,7 @@ return {
     config = function()
       require("mason").setup()
       require("mason-lspconfig").setup({
-        ensure_installed = { "ts_ls", "lua_ls", "solargraph" },
+        ensure_installed = { "ts_ls", "lua_ls", "ruby_lsp" },
         automatic_installation = true,
       })
 
