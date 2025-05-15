@@ -66,3 +66,10 @@ if vim.g.vscode then
 	vim.opt.clipboard:append('unnamedplus')
 end
 
+-- カレントバッファファイルのパスをクリップボードにコピーする
+vim.keymap.set('n', '<Leader>fp', function()
+	local filepath = vim.fn.fnamemodify(vim.fn.expand('%:p'), ':.')
+	vim.fn.setreg('+', filepath)
+	vim.api.nvim_echo({{'File path copied: ' .. filepath, 'Normal'}}, false, {})
+end, { noremap = true, desc = "Copy full file path to clipboard" })
+
