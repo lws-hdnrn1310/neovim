@@ -13,10 +13,6 @@ return {
     },
     config = function()
       require("mason").setup()
-      require("mason-lspconfig").setup({
-        ensure_installed = { "ts_ls", "lua_ls", "ruby_lsp" },
-        automatic_installation = true,
-      })
 
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
@@ -67,58 +63,51 @@ return {
         -- vim.lsp.inlay_hint(bufnr, true)
       end
 
-      local function lsp_setup(server_name)
-        require("lspconfig")[server_name].setup({
-          capabilities = capabilities,
-          -- ここに on_attach コールバックを追加
-          on_attach = on_attach,
-          -- 必要に応じて、サーバーごとの追加設定をここに追加します
-          -- 例えば、lua_ls の設定:
-          -- [[
-          -- settings = {
-          --   Lua = {
-          --     workspace = { checkThirdParty = false },
-          --     telemetry = { enable = false },
-          --     -- Add any additional lua_ls settings here
-          --   },
-          -- },
-          -- ]]
-          -- 他のサーバーの設定も同様に追加できます
-          -- 例えば、ts_ls の設定:
-          -- [[
-          -- init_options = {
-          --   hostInfo = "neovim",
-          -- },
-          -- ]]
-        })
-      end
-
-      require("mason-lspconfig").setup_handlers({
-        -- インストールされているすべてのLSPサーバーに対して、デフォルトのセットアップハンドラとして lsp_setup 関数を適用
-        function(server_name)
-          lsp_setup(server_name)
-        end,
-        -- もし特定のサーバーに特別な設定が必要な場合は、以下のように上書きできます
-        -- 例如:
-        -- ["lua_ls"] = function()
-        --   require("lspconfig").lua_ls.setup({
-        --     on_attach = on_attach,
-        --     settings = {
-        --       Lua = {
-        --         workspace = { checkThirdParty = false },
-        --         telemetry = { enable = false },
-        --       },
-        --     },
-        --   })
-        -- end,
-        -- ["ts_ls"] = function()
-        --   require("lspconfig").ts_ls.setup({
-        --     on_attach = on_attach,
-        --     init_options = {
-        --       hostInfo = "neovim",
-        --     },
-        --   })
-        -- end,
+      -- mason-lspconfig のセットアップを呼び出し
+      require("mason-lspconfig").setup({
+        ensure_installed = { "ts_ls", "lua_ls", "ruby_lsp", "haml_lint" },
+        automatic_installation = true,
+        -- **** ここを修正します ****
+        -- setup_handlers ではなく、handlers テーブルを直接渡します
+        handlers = {
+          -- デフォルトのハンドラとして、一般的なLSP設定を適用
+          function(server_name)
+            require("lspconfig")[server_name].setup({
+              capabilities = capabilities,
+              on_attach = on_attach,
+              -- 必要に応じて、サーバーごとの追加設定をここに追加します
+              -- 例:
+              -- settings = {
+              --   -- Lua LS の設定例
+              --   Lua = {
+              --     workspace = { checkThirdParty = false },
+              --     telemetry = { enable = false },
+              --   },
+              -- },
+            })
+          end,
+          -- 特定のサーバーに特別な設定が必要な場合は、以下のように上書きできます
+          -- 例えば:
+          -- ["lua_ls"] = function()
+          --   require("lspconfig").lua_ls.setup({
+          --     on_attach = on_attach,
+          --     settings = {
+          --       Lua = {
+          --         workspace = { checkThirdParty = false },
+          --         telemetry = { enable = false },
+          --       },
+          --     },
+          --   })
+          -- end,
+          -- ["ts_ls"] = function()
+          --   require("lspconfig").ts_ls.setup({
+          --     on_attach = on_attach,
+          --     init_options = {
+          --       hostInfo = "neovim",
+          --     },
+          --   })
+          -- end,
+        }
       })
 
       -- `nvim-cmp` の設定 (既存のまま)
@@ -134,12 +123,6 @@ return {
           ["<Tab>"] = cmp.mapping.select_next_item(),
           ["<S-Tab>"] = cmp.mapping.select_prev_item(),
           ["<CR>"] = cmp.mapping.confirm({ select = true }),
-          -- 補完ウィンドウ表示中にドキュメントウィンドウを開く例
-          -- ["<C-y>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select = false` to only confirm explicitly selected items.
-          -- ["<C-Space>"] = cmp.mapping.complete(), -- manual completion
-          -- ["<C-e>"] = cmp.mapping.abort(), -- dismiss completion
-          -- ["<C-n>"] = cmp.mapping.scroll_docs(4), -- scroll down docs
-          -- ["<C-p>"] = cmp.mapping.scroll_docs(-4), -- scroll up docs
         }),
         sources = cmp.config.sources({
           { name = "nvim_lsp" }, -- LSP の補完
@@ -147,23 +130,8 @@ return {
           { name = "path" }, -- パス補完
           { name = "luasnip" }, -- スニペット補完
         }),
-        -- 補完メニューの外観設定例
-        -- formatting = {
-        --   format = require('lspkind').cmp_format({
-        --     maxwidth = 50,
-        --     ellipsis_char = '...',
-        --   })
-        -- },
-        -- window = {
-        --   completion = cmp.config.window.bordered(),
-        --   documentation = cmp.config.window.bordered(),
-        -- },
       })
 
-      -- LuaSnip の設定例 (必要であれば)
-      -- require("luasnip.loaders.from_vscode").lazy_load()
-      -- vim.keymap.set({"i","s"}, "<C-Tab>", function() require("luasnip").jump(1) end, {silent = true})
-      -- vim.keymap.set({"i","s"}, "<C-S-Tab>", function() require("luasnip").jump(-1) end, {silent = true})
     end,
   }
 }
