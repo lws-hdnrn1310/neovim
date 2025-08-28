@@ -37,7 +37,7 @@ vim.opt.autoread = true
 -- about tab
 vim.opt.showtabline = 2
 vim.opt.tabstop = 2
--- vim.opt.expandtab = true
+vim.opt.expandtab = true
 vim.opt.shiftwidth = 2
 vim.opt.scrolloff = 10
 vim.opt.cmdheight = 1
