@@ -107,6 +107,19 @@ return {
           --     },
           --   })
           -- end,
+          ["ruby_lsp"] = function()
+            require("lspconfig").ruby_lsp.setup({
+              capabilities = capabilities,
+              on_attach = on_attach,
+              cmd = {
+                -- 環境に応じてrubyとbundlerのパスを書き換える
+                "/Users/hidenari.ueno/.rbenv/versions/3.4.5/bin/ruby",
+                "/Users/hidenari.ueno/.rbenv/versions/3.4.5/bin/bundle",
+                "exec",
+                "ruby-lsp",
+              },
+            })
+          end
         }
       })
 
