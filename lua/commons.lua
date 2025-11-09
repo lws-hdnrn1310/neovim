@@ -20,7 +20,7 @@ vim.opt.cursorline = true
 vim.opt.cursorcolumn = true
 
 -- clipbord
-vim.opt.clipboard:append({"unnamedplus"})
+-- vim.opt.clipboard = "unnamed,unnamedplus"
 vim.opt.laststatus = 2
 vim.opt.showmatch = true
 -- put the number on leftside
@@ -52,20 +52,27 @@ vim.opt.pumblend = 30
 
 vim.o.foldenable = false
 
--- ツリー表示
--- 表示を変更したい場合は i で切替可能
+vim.opt.splitright = true
 vim.g.netrw_liststyle = 3
--- 上部のバナーを非表示
--- I で toggle 可能
 vim.g.netrw_banner = 0
--- window サイズ
 vim.g.netrw_winsize = 25
--- Netrw で Enter 押下時の挙動設定
-vim.g.netrw_browse_split = 3
-vim.g.netrw_altv = 1
-if vim.g.vscode then
-	vim.opt.clipboard:append('unnamedplus')
-end
+
+local grp = vim.api.nvim_create_augroup("NetrwLayout", { clear = true })
+
+vim.api.nvim_create_autocmd("VimEnter", {
+  group = grp,
+  once = true,
+  callback = function(ev)
+    if vim.fn.isdirectory(ev.file) ~= 1 then return end
+    vim.schedule(function()
+      vim.cmd("Lexplore")
+      local total = vim.fn.winnr("$")
+      if total == 1 then vim.cmd("vnew") end
+      vim.cmd("wincmd l")
+      if vim.bo.filetype == "netrw" then vim.cmd("bn") end
+    end)
+  end,
+})
 
 -- カレントバッファファイルのパスをクリップボードにコピーする
 vim.keymap.set('n', '<Leader>fp', function()

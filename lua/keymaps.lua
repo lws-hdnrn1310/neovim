@@ -74,3 +74,12 @@ end
 -- <leader>ccp (Copilot Chat Prompt の略) でアクションプロンプトを表示する
 vim.api.nvim_set_keymap("n", "<leader>ccp", "<cmd>lua ShowCopilotChatActionPrompt()<cr>", { noremap = true, silent = true })
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "netrw",
+  callback = function()
+    pcall(vim.keymap.del, "n", "<C-l>", { buffer = true })
+    vim.keymap.set("n", "<C-l>", "<C-w>l", { buffer = true , silent = true, noremap = true })
+    vim.keymap.set("n", "gr", "<Plug>NetrwRefresh", { buffer = true, silent = true })
+  end,
+})
+
