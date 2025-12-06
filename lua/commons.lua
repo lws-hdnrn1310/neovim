@@ -25,6 +25,7 @@ vim.opt.laststatus = 2
 vim.opt.showmatch = true
 -- put the number on leftside
 vim.opt.number = true
+vim.opt.relativenumber = true
 vim.opt.autoread = true
 -- about indent
  vim.opt.breakindent = true
@@ -53,26 +54,28 @@ vim.opt.pumblend = 30
 vim.o.foldenable = false
 
 vim.opt.splitright = true
-vim.g.netrw_liststyle = 3
-vim.g.netrw_banner = 0
-vim.g.netrw_winsize = 25
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+-- vim.g.netrw_liststyle = 3
+-- vim.g.netrw_banner = 0
+-- vim.g.netrw_winsize = 25
 
-local grp = vim.api.nvim_create_augroup("NetrwLayout", { clear = true })
+-- local grp = vim.api.nvim_create_augroup("NetrwLayout", { clear = true })
 
-vim.api.nvim_create_autocmd("VimEnter", {
-  group = grp,
-  once = true,
-  callback = function(ev)
-    if vim.fn.isdirectory(ev.file) ~= 1 then return end
-    vim.schedule(function()
-      vim.cmd("Lexplore")
-      local total = vim.fn.winnr("$")
-      if total == 1 then vim.cmd("vnew") end
-      vim.cmd("wincmd l")
-      if vim.bo.filetype == "netrw" then vim.cmd("bn") end
-    end)
-  end,
-})
+-- vim.api.nvim_create_autocmd("VimEnter", {
+--   group = grp,
+--   once = true,
+--   callback = function(ev)
+--     if vim.fn.isdirectory(ev.file) ~= 1 then return end
+--     vim.schedule(function()
+--       vim.cmd("Lexplore")
+--       local total = vim.fn.winnr("$")
+--       if total == 1 then vim.cmd("vnew") end
+--       vim.cmd("wincmd l")
+--       if vim.bo.filetype == "netrw" then vim.cmd("bn") end
+--     end)
+--   end,
+-- })
 
 -- カレントバッファファイルのパスをクリップボードにコピーする
 vim.keymap.set('n', '<Leader>fp', function()
