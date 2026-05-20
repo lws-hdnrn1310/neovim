@@ -4,9 +4,9 @@ return{
 	event = { "InsertEnter" },
 	config = function()
 		require("copilot").setup({
-			suggestion = { enabled = false },
+      copilot_node_command = '/Users/h.ueno/.nodenv/versions/25.1.0/bin/node',
+			suggestion = { enabled = true },
 			panel = { enabled = false },
-			copilot_node_command = 'node'
 		})
 	end,
 }

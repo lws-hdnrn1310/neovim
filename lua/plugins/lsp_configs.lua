@@ -12,29 +12,14 @@ return {
       "saadparwaiz1/cmp_luasnip",
     },
     config = function()
-      -- mason / mason-lspconfig 初期化（v2.x）
       require("mason").setup()
-      local mlsp = require("mason-lspconfig")
-      mlsp.setup({
-        ensure_installed = {
-          -- ※ lspconfig のサーバー名で。古い lspconfig なら tsserver を使う
-          "ts_ls",
-          "lua_ls",
-          "ruby_lsp",
-          "pyright",
-          "html",
-          "cssls",
-          "jsonls",
-          "dockerls",
-          "docker_compose_language_service",
-          "eslint",
-        },
-        automatic_installation = true,
-      })
 
       -- 共通
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
-      local lspconfig = require("lspconfig")
+      capabilities.offsetEncoding = { "utf-16" }
+      capabilities.general = {
+        positionEncodings = { "utf-16" }
+      }
 
       local on_attach = function(client, bufnr)
         local o = { buffer = bufnr, noremap = true, silent = true }
@@ -51,40 +36,46 @@ return {
         vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Show diagnostic' })
       end
 
-      -- サーバー毎の最終セットアップ
-      local lspconfig = require("lspconfig")        -- これは残してOK（読むだけ）
-      local configs   = require("lspconfig.configs")-- ← 追加
+      -- Neovim 0.11+ の新しい LSP 設定 API
+      -- '*' で全サーバー共通の設定を適用
+      vim.lsp.config('*', {
+        capabilities = capabilities,
+        on_attach = on_attach,
+      })
 
-      local function setup_server(name)
-        -- 古い環境向けフォールバック（ts_ls が無い場合は tsserver を使う）
-        if name == "ts_ls" and not configs.ts_ls then
-          name = "tsserver"
-        end
+      -- サーバー個別設定
+      vim.lsp.config('lua_ls', {
+        settings = {
+          Lua = { workspace = { checkThirdParty = false }, telemetry = { enable = false } },
+        },
+      })
 
-        local cfg = configs[name]
-        if not cfg then
-          vim.schedule(function()
-            vim.notify(("lspconfig: unknown server '%s'"):format(name), vim.log.levels.WARN)
-          end)
-          return
-        end
+      vim.lsp.config('ruby_lsp', {
+        cmd = { "yarn", "docker-compose", "exec", "api", "bash", "ruby-lsp-raw" },
+        capabilities = vim.tbl_deep_extend("force", capabilities, {
+          offsetEncoding = { "utf-16" },
+          general = { positionEncodings = { "utf-16" } },
+        }),
+      })
 
-        local opts = { capabilities = capabilities, on_attach = on_attach }
-        if name == "lua_ls" then
-          opts.settings = {
-            Lua = { workspace = { checkThirdParty = false }, telemetry = { enable = false } },
-          }
-        end
+      -- mason-lspconfig: インストールと自動有効化
+      require("mason-lspconfig").setup({
+        ensure_installed = {
+          "ts_ls",
+          "lua_ls",
+          "ruby_lsp",
+          "pyright",
+          "html",
+          "cssls",
+          "jsonls",
+          "dockerls",
+          "docker_compose_language_service",
+          "eslint",
+        },
+        automatic_enable = true,
+      })
 
-        cfg.setup(opts)                             -- ← configs 経由で setup（警告が出ない）
-      end
-
-      -- v2.x では setup_handlers は廃止：インストール済みを回す
-      for _, server in ipairs(mlsp.get_installed_servers()) do
-        setup_server(server)
-      end
-
-      -- nvim-cmp（そのまま）
+      -- nvim-cmp
       local cmp = require("cmp")
       cmp.setup({
         snippet = { expand = function(args) require("luasnip").lsp_expand(args.body) end },

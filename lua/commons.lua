@@ -84,3 +84,22 @@ vim.keymap.set('n', '<Leader>fp', function()
 	vim.api.nvim_echo({{'File path copied: ' .. filepath, 'Normal'}}, false, {})
 end, { noremap = true, desc = "Copy full file path to clipboard" })
 
+vim.o.cursorline = true
+vim.o.cursorlineopt = "number,line"
+
+local group = vim.api.nvim_create_augroup("CursorLineMode", { clear = true })
+
+vim.api.nvim_create_autocmd("ModeChanged", {
+  group = group,
+  pattern = "*:*",
+  callback = function()
+    local mode = vim.fn.mode()
+    if mode:match("^i") then
+      vim.api.nvim_set_hl(0, "CursorLine", { bg = "#2d3b2d" })
+    elseif mode:match("^[vV]") or mode == "\22" then
+      vim.api.nvim_set_hl(0, "CursorLine", { bg = "#3a2d2d" })
+    else
+      vim.api.nvim_set_hl(0, "CursorLine", { bg = "#2d2f3a" })
+    end
+  end,
+})
