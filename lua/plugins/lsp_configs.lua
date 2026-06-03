@@ -1,9 +1,7 @@
 return {
   {
-    "williamboman/mason.nvim",
+    "neovim/nvim-lspconfig",
     dependencies = {
-      "williamboman/mason-lspconfig.nvim",
-      "neovim/nvim-lspconfig",
       "hrsh7th/nvim-cmp",
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
@@ -12,9 +10,6 @@ return {
       "saadparwaiz1/cmp_luasnip",
     },
     config = function()
-      require("mason").setup()
-
-      -- 共通
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
       capabilities.offsetEncoding = { "utf-16" }
       capabilities.general = {
@@ -36,43 +31,37 @@ return {
         vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Show diagnostic' })
       end
 
-      -- Neovim 0.11+ の新しい LSP 設定 API
-      -- '*' で全サーバー共通の設定を適用
       vim.lsp.config('*', {
         capabilities = capabilities,
         on_attach = on_attach,
       })
 
-      -- サーバー個別設定
       vim.lsp.config('lua_ls', {
         settings = {
           Lua = { workspace = { checkThirdParty = false }, telemetry = { enable = false } },
         },
       })
 
+      -- Ruby 3.4.4 (x86_64) headers trigger -Wdefault-const-init-field-unsafe on Xcode 26,
+      -- which causes mkmf's -Werror flag checks to fail and breaks nokogiri's native extension build.
       vim.lsp.config('ruby_lsp', {
-        cmd = { "yarn", "docker-compose", "exec", "api", "bash", "ruby-lsp-raw" },
-        capabilities = vim.tbl_deep_extend("force", capabilities, {
-          offsetEncoding = { "utf-16" },
-          general = { positionEncodings = { "utf-16" } },
-        }),
+        cmd_env = {
+          CFLAGS = '-Wno-default-const-init-field-unsafe',
+        },
       })
 
-      -- mason-lspconfig: インストールと自動有効化
-      require("mason-lspconfig").setup({
-        ensure_installed = {
-          "ts_ls",
-          "lua_ls",
-          "ruby_lsp",
-          "pyright",
-          "html",
-          "cssls",
-          "jsonls",
-          "dockerls",
-          "docker_compose_language_service",
-          "eslint",
-        },
-        automatic_enable = true,
+
+      vim.lsp.enable({
+        'ts_ls',
+        'lua_ls',
+        'ruby_lsp',
+        'pyright',
+        'html',
+        'cssls',
+        'jsonls',
+        'dockerls',
+        'docker_compose_language_service',
+        'eslint',
       })
 
       -- nvim-cmp
@@ -80,7 +69,15 @@ return {
       cmp.setup({
         snippet = { expand = function(args) require("luasnip").lsp_expand(args.body) end },
         mapping = cmp.mapping.preset.insert({
-          ["<Tab>"]   = cmp.mapping.select_next_item(),
+          ["<Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_next_item()
+            elseif require("copilot.suggestion").is_visible() then
+              require("copilot.suggestion").accept()
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
           ["<S-Tab>"] = cmp.mapping.select_prev_item(),
           ["<CR>"]    = cmp.mapping.confirm({ select = true }),
         }),
