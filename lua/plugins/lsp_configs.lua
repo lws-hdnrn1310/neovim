@@ -36,6 +36,11 @@ return {
         on_attach = on_attach,
       })
 
+      vim.lsp.config('ts_ls', {
+        capabilities = capabilities,
+        on_attach = on_attach
+      })
+
       vim.lsp.config('lua_ls', {
         settings = {
           Lua = { workspace = { checkThirdParty = false }, telemetry = { enable = false } },
@@ -67,6 +72,12 @@ return {
       -- nvim-cmp
       local cmp = require("cmp")
       cmp.setup({
+        -- プロンプトバッファ（Telescope の検索欄など）では cmp を無効化する。
+        -- これがないと Telescope プロンプトで補完ポップアップが出て、
+        -- <Tab> が toggle_selection ではなく cmp のメニュー移動に奪われる。
+        enabled = function()
+          return vim.api.nvim_get_option_value("buftype", { buf = 0 }) ~= "prompt"
+        end,
         snippet = { expand = function(args) require("luasnip").lsp_expand(args.body) end },
         mapping = cmp.mapping.preset.insert({
           ["<Tab>"] = cmp.mapping(function(fallback)

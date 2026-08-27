@@ -5,8 +5,7 @@ return {
     "nvim-telescope/telescope.nvim",
   },
   config = function()
-    -- config 関数の内部にキーマッピングを移動します
-		vim.keymap.set('n', '<leader>fb', function()
+    vim.keymap.set('n', '<leader>fb', function()
       -- カレントバッファのディレクトリを取得する
       local current_buffer_directory = vim.fn.expand('%:h')
       -- カレントバッファにファイル名が関連付けられていない場合（例: 新規バッファ）、
@@ -20,6 +19,6 @@ return {
       require('telescope').extensions.file_browser.file_browser({
         path = current_buffer_directory,
       })
-    end, { noremap = true, silent = true, desc = "Open file browser in current buffer's directory (using vim.keymap.set)" })
-	end,
+    end, { noremap = true, silent = true, desc = "Open file browser in current buffer's directory" })
+  end,
 }
